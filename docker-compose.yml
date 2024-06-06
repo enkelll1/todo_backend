@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  api:
+    build: ./server
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
