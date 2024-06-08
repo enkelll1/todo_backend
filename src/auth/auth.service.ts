@@ -8,6 +8,8 @@ import {
 import { User } from '../database/user/user.entity'
 import { Crypt } from '../utils/crypt'
 import { JwtService } from '@nestjs/jwt'
+import { LoginUserDto } from './dto/login-user.dto'
+import { RegisterUserDto } from './dto/register-user.dto'
 
 @Injectable()
 export class AuthService {
@@ -17,12 +19,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(req: {
-    username: string
-    email: string
-    password: string
-    repeatPassword: string
-  }): Promise<User> {
+  async register(req: RegisterUserDto): Promise<User> {
     if (req.password != req.repeatPassword) {
       throw new BadRequestException('Password mismatch')
     }
@@ -42,7 +39,7 @@ export class AuthService {
     return user
   }
 
-  async login(req: { email: string; password: string }) {
+  async login(req: LoginUserDto): Promise<{ accessToken: string }> {
     const user: User = await this.validateUser(req)
     if (!user) {
       throw new UnauthorizedException('User not found')
@@ -57,10 +54,7 @@ export class AuthService {
     }
   }
 
-  private async validateUser(req: {
-    email: string
-    password: string
-  }): Promise<User> {
+  private async validateUser(req: LoginUserDto): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email: req.email },
     })
