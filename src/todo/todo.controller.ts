@@ -44,7 +44,7 @@ export class TodoController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<Todo> {
+  remove(@Param('id') id: string): Promise<{ ok: boolean }> {
     return this.todoService.remove(+id)
   }
 }

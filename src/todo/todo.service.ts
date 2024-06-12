@@ -51,31 +51,27 @@ export class TodoService {
 
   async update(id: number, updateTodoDto: UpdateTodoDto): Promise<Todo> {
     try {
-      await this.todoRepository.update(
-        {
-          description: updateTodoDto.description,
-        },
-        {
-          where: { id: id },
-        },
-      )
-      const todo = await this.todoRepository.findOne({
-        where: {
-          id: id,
-        },
-      })
-      return todo
+      const [numberOfAffectedRows, [updatedTodo]] =
+        await this.todoRepository.update(
+          {
+            description: updateTodoDto.description,
+          },
+          {
+            where: { id: id },
+            returning: true,
+          },
+        )
+      return updatedTodo.dataValues
     } catch (e) {
       console.dir(e, { depth: 6 })
       throw new BadRequestException('Failed to update todo')
     }
   }
 
-  async remove(id: number): Promise<Todo> {
+  async remove(id: number): Promise<{ ok: boolean }> {
     try {
-      const todo = await this.todoRepository.findOne({ where: { id: id } })
       await this.todoRepository.destroy({ where: { id: id } })
-      return todo
+      return { ok: true }
     } catch (e) {
       console.dir(e, { depth: 6 })
       throw new BadRequestException('Failed to delete todo')
