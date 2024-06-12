@@ -19,7 +19,7 @@ Try with postman at http://localhost:8081
 
 Authentication endpoint
 
-<li>register(post)- http://localhost:8081/auth/login</li>
+<li>register(post)- http://localhost:8081/auth/register</li>
 <li>login(post)- http://localhost:8081/auth/login</li>
 
 Todos endpoint(Protected with jwt Bearer)
