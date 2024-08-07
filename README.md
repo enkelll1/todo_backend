@@ -1,7 +1,7 @@
 <h3>Steps to build </h3>
 For starting :
 
-git clone https://github.com/enkelll1/crispy_be_challenge_enkel-dervishi.git
+git clone 
 
 Make sure you have docker installed and type in the main directory the commands below:
 
